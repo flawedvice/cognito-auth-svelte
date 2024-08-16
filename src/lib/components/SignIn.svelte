@@ -23,6 +23,23 @@
 	}
 </script>
 
+<!--
+	@component
+	Signs users in your application. Allows customization via the `class` prop.
+	The `hidePassword` prop can also be used to show/hide the password field.
+
+	```svelte
+	<SignIn
+		on:submit={handleSubmit}
+		on:success={handleSuccess}
+		on:error={handleError}
+		on:finally={handleFinally}
+	>
+		<span slot="username|password|submit">...</span>
+	</SignIn>
+	```
+-->
+
 <form on:submit|preventDefault={handleSignIn} class={classNames}>
 	<label>
 		<slot name="username">Username</slot>

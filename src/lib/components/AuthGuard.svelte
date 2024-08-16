@@ -19,6 +19,17 @@
 	});
 </script>
 
+<!--
+	@component
+	Check whether a user is authenticated. Use it to protect your routes by placing it at any `+layout.svelte` file as:
+
+	```svelte
+	<AuthGuard on:success={redirectUser} on:error={redirectGuest} on:finally={stopLoader} >
+		<slot />
+	</AuthGuard>
+	```
+-->
+
 {#if authenticated}
 	<slot />
 {/if}

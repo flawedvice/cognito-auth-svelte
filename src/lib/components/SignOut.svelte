@@ -21,6 +21,21 @@
 	}
 </script>
 
+<!--
+	@component
+	Signs users out of your application. Allows customization via the `class` prop.
+
+	```svelte
+	<SignOut
+		on:success={handleSuccess}
+		on:error={handleError}
+		on:finally={handleFinally}
+	>
+		<span slot="signout">...</span>
+	</SignOut>
+	```
+-->
+
 <button on:click={handleSignOut} class={classNames}>
 	<slot name="signout">Sign Out</slot>
 </button>
