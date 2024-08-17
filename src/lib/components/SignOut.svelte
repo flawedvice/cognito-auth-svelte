@@ -36,6 +36,9 @@
 	```
 -->
 
-<button on:click={handleSignOut} class={classNames}>
+<button
+	on:click={handleSignOut}
+	class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit {classNames}"
+>
 	<slot name="signout">Sign Out</slot>
 </button>

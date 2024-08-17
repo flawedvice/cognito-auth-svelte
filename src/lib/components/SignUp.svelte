@@ -4,6 +4,8 @@
 
 	let classNames = '';
 	export { classNames as class };
+	export let userType: 'email' | 'username' = 'email';
+	export let autocomplete = false;
 	export let hidePassword = true;
 
 	const dispatch = createEventDispatcher();
@@ -30,30 +32,54 @@
 
 	```svelte
 	<SignUp
+		class=""
+		hidePassword={true}
+		userType={"email" | "username"}
 		on:submit={handleSubmit}
 		on:success={handleSuccess}
 		on:error={handleError}
 		on:finally={handleFinally}
 	>
-		<span slot="username|password|submit">...</span>
+		<span slot="head|username|password|submit|actions">...</span>
 	</SignUp>
 	```
 -->
 
-<form on:submit|preventDefault={handleSignUp} class={classNames}>
-	<label>
+<form
+	on:submit|preventDefault={handleSignUp}
+	class="flex flex-col items-start gap-4 w-1/4 rounded border border-zinc-300 px-12 py-14 {classNames}"
+>
+	<slot name="head" />
+	<label class="flex flex-col w-full">
 		<slot name="username">Username</slot>
-		<input type="email" bind:value={username} required />
-	</label>
-	<label>
-		<slot name="password">Password</slot>
-		{#if hidePassword}
-			<input type="password" bind:value={password} required />
+		{#if userType === 'email'}
+			<input
+				type="email"
+				class="rounded"
+				bind:value={username}
+				required
+				autocomplete={autocomplete ? 'email' : null}
+			/>
 		{:else}
-			<input type="text" bind:value={password} required />
+			<input
+				type="text"
+				class="rounded"
+				bind:value={username}
+				required
+				autocomplete={autocomplete ? 'username' : null}
+			/>
 		{/if}
 	</label>
-	<button type="submit">
+	<label class="flex flex-col w-full">
+		<slot name="password">Password</slot>
+		{#if hidePassword}
+			<input type="password" class="rounded" bind:value={password} required />
+		{:else}
+			<input type="text" class="rounded" bind:value={password} required />
+		{/if}
+	</label>
+	<button type="submit" class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit">
 		<slot name="submit">Submit</slot>
 	</button>
+	<slot name="actions" />
 </form>

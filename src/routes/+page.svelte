@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { SignUp, SignIn, SignOut } from '$lib';
 
 	let loading = false;
@@ -7,6 +8,7 @@
 	}
 	function handleSuccess(event: CustomEvent) {
 		console.log(event.detail);
+		goto('/userData');
 	}
 	function handleError(event: CustomEvent) {
 		console.log(event.detail);
@@ -18,40 +20,21 @@
 	let hidePassword = true;
 </script>
 
-<main
-	style="width: 50%; height: 50%; margin: 200px auto; display: flex; flex-direction: column; gap: 4rem;"
->
-	<a href="/userData">UserData</a>
-
-	SignUp
-	<SignUp
-		on:submit={handleSubmit}
-		on:success={handleSuccess}
-		on:error={handleError}
-		on:finally={handleFinally}
-		{hidePassword}
-	>
-		<span slot="username">Correo</span>
-		<span slot="password">Contraseña</span>
-		<span slot="submit">
-			{#if loading}
-				loading...
-			{:else}
-				Ingresar
-			{/if}
-		</span>
-	</SignUp>
-
-	SignIn
+<main class="flex justify-center my-40">
+	<SignOut on:success={() => console.log('signed out!')} />
 	<SignIn
-		class="signIn"
 		on:submit={handleSubmit}
 		on:success={handleSuccess}
 		on:error={handleError}
 		on:finally={handleFinally}
 		{hidePassword}
+		autocomplete={true}
 	>
-		<span slot="username">Correo</span>
+		<div slot="head" class="flex flex-col w-full">
+			<div class="h-8 w-8 bg-orange-400 mx-auto"></div>
+			<h1 class="text-3xl mb-4">Iniciar Sesión</h1>
+		</div>
+		<span slot="username">Correo electrónico</span>
 		<span slot="password">Contraseña</span>
 		<span slot="submit">
 			{#if loading}
@@ -60,20 +43,9 @@
 				Ingresar
 			{/if}
 		</span>
+		<div slot="actions" class="flex justify-between w-full text-sm text-zinc-700">
+			<a class="link" href="">Crear cuenta</a>
+			<a class="link" href="">Olvidé mi contraseña</a>
+		</div>
 	</SignIn>
-
-	<SignOut
-		on:submit={handleSubmit}
-		on:success={handleSuccess}
-		on:error={handleError}
-		on:finally={handleFinally}
-	>
-		<span slot="signout">
-			{#if loading}
-				loading...
-			{:else}
-				Cerrar sesión
-			{/if}
-		</span>
-	</SignOut>
 </main>
