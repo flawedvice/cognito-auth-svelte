@@ -91,6 +91,43 @@ export class Auth {
 				onFailure: (err: Error) => {
 					return reject(err);
 				},
+				newPasswordRequired: (/* userAttributes: { [key: string]: string } */) => {
+					return reject(new Error('newPasswordRequired'));
+				}
+			});
+		});
+
+		return promise;
+	}
+
+	passwordResetChallenge(username: string, oldPassword: string, newPassword: string) {
+		const authenticationDetails = new AuthenticationDetails({
+			Username: username,
+			Password: oldPassword
+		});
+
+		const userData = {
+			Username: username,
+			Pool: this.#UserPool
+		};
+
+		const cognitoUser = new CognitoUser(userData);
+
+		const promise = new Promise<SignInResponse>((resolve, reject) => {
+			cognitoUser.authenticateUser(authenticationDetails, {
+				onSuccess: (session: CognitoUserSession, userConfirmationNecessary?: boolean) => {
+					this.#CognitoUser = cognitoUser;
+					const needsConfirmation = !!userConfirmationNecessary;
+					const value: SignInSession = {
+						type: 'session',
+						session,
+						needsConfirmation
+					};
+					return resolve(value);
+				},
+				onFailure: (err: Error) => {
+					return reject(err);
+				},
 				newPasswordRequired: (userAttributes: { [key: string]: string }) => {
 					// User was signed up by an admin and must provide new
 					// password and required attributes, if any, to complete
@@ -100,7 +137,7 @@ export class Auth {
 					delete userAttributes.email;
 					delete userAttributes.email_verified;
 
-					cognitoUser.completeNewPasswordChallenge(password, userAttributes, {
+					cognitoUser.completeNewPasswordChallenge(newPassword, userAttributes, {
 						onSuccess: (session, userConfirmationNecessary) => {
 							return resolve({
 								type: 'session',
@@ -112,6 +149,7 @@ export class Auth {
 							return reject(err);
 						}
 					});
+					return reject(new Error('newPasswordRequired'));
 				}
 			});
 		});

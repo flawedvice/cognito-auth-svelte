@@ -19,7 +19,12 @@
 				dispatch('success', { res });
 			})
 			.catch((error: Error) => {
-				dispatch('error', { error: error.message });
+				if (error.message === 'newPasswordRequired') {
+					needsPasswordReset = true;
+					dispatch('passwordReset');
+				} else {
+					dispatch('error', { error: error.message });
+				}
 			})
 			.finally(() => dispatch('finally'));
 	}

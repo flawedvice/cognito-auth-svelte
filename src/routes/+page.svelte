@@ -1,19 +1,26 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { SignUp, SignIn, SignOut } from '$lib';
+	import { SignIn, SignOut } from '$lib';
 
 	let loading = false;
 	function handleSubmit() {
 		loading = true;
+		console.log('submit!');
 	}
 	function handleSuccess(event: CustomEvent) {
+		console.log('success!');
 		console.log(event.detail);
-		goto('/userData');
+	}
+	function handlePasswordReset(event: CustomEvent) {
+		console.log('password reset required!');
+		console.log(event.detail);
 	}
 	function handleError(event: CustomEvent) {
+		console.log('error');
 		console.log(event.detail);
 	}
 	function handleFinally(event: CustomEvent) {
+		console.log('finally!');
 		loading = false;
 	}
 
@@ -27,6 +34,7 @@
 		on:success={handleSuccess}
 		on:error={handleError}
 		on:finally={handleFinally}
+		on:passwordReset={handlePasswordReset}
 		{hidePassword}
 		autocomplete={true}
 	>
