@@ -1,15 +1,18 @@
 <script lang="ts">
 	import { authStore } from '$lib/auth';
+	import { Eye, EyeOff } from './icons';
 	import { createEventDispatcher } from 'svelte';
 
+	export let username = '';
 	let classNames = '';
 	export { classNames as class };
 	export let userType: 'email' | 'username' = 'email';
 	export let autocomplete = false;
-	export let hidePassword = true;
+	export let togglePassword = false;
 
 	const dispatch = createEventDispatcher();
-	let username: string, password: string;
+	let password: string,
+		hidePassword = true;
 
 	function handleSignIn() {
 		dispatch('submit');
@@ -20,8 +23,7 @@
 			})
 			.catch((error: Error) => {
 				if (error.message === 'newPasswordRequired') {
-					needsPasswordReset = true;
-					dispatch('passwordReset');
+					dispatch('passwordReset', { username });
 				} else {
 					dispatch('error', { error: error.message });
 				}
@@ -38,9 +40,9 @@
 	```svelte
 	<SignIn
 		class=""
-		hidePassword={true}
 		userType={"email" | "username"}
 		autocomplete={false}
+		togglePassword={false}
 		on:submit={handleSubmit}
 		on:success={handleSuccess}
 		on:error={handleError}
@@ -76,12 +78,22 @@
 			/>
 		{/if}
 	</label>
-	<label class="flex flex-col w-full">
+	<label class="relative flex flex-col w-full">
 		<slot name="password">Password</slot>
 		{#if hidePassword}
 			<input type="password" class="rounded" bind:value={password} required />
 		{:else}
 			<input type="text" class="rounded" bind:value={password} required />
+		{/if}
+
+		{#if togglePassword}
+			<button class="absolute inset-y-8 right-2" on:click={() => (hidePassword = !hidePassword)}>
+				{#if hidePassword}
+					<Eye />
+				{:else}
+					<EyeOff />
+				{/if}
+			</button>
 		{/if}
 	</label>
 	<button type="submit" class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit">

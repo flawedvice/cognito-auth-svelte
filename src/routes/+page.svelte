@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { SignIn, SignOut } from '$lib';
+	import { SignIn, SignUp, SignOut, ConfirmSignUp, ResetPassword } from '$lib';
 
 	let loading = false;
 	function handleSubmit() {
@@ -28,15 +28,16 @@
 </script>
 
 <main class="flex justify-center my-40">
-	<SignOut on:success={() => console.log('signed out!')} />
-	<SignIn
+	<ResetPassword togglePassword />
+	<!-- <SignOut on:success={() => console.log('signed out!')} /> -->
+	<!-- <SignUp
 		on:submit={handleSubmit}
 		on:success={handleSuccess}
 		on:error={handleError}
 		on:finally={handleFinally}
 		on:passwordReset={handlePasswordReset}
-		{hidePassword}
-		autocomplete={true}
+		togglePassword
+		autocomplete
 	>
 		<div slot="head" class="flex flex-col w-full">
 			<div class="h-8 w-8 bg-orange-400 mx-auto"></div>
@@ -55,5 +56,5 @@
 			<a class="link" href="">Crear cuenta</a>
 			<a class="link" href="">Olvidé mi contraseña</a>
 		</div>
-	</SignIn>
+	</SignUp> -->
 </main>

@@ -1,33 +1,24 @@
 <script lang="ts">
 	import { authStore } from '$lib/auth';
 	import { createEventDispatcher } from 'svelte';
+	import { Eye, EyeOff } from './icons';
 
+	export let username = '';
 	let classNames = '';
 	export { classNames as class };
-	export let hidePassword = true;
+	export let userType: 'email' | 'username' = 'email';
+	export let autocomplete = false;
+	export let togglePassword = false;
 
 	const dispatch = createEventDispatcher();
-	let username: string, oldPassword: string;
-
-	let newPassword: string, confirmPassword: string;
-	let validPassword = false;
-
-	function validatePasswords() {
-		const emptyPasswords = newPassword === '' || confirmPassword === '';
-		const equalPasswords = newPassword === confirmPassword;
-		console.log('empty:', emptyPasswords, 'equal:', equalPasswords);
-		if (!emptyPasswords && equalPasswords) return true;
-		else return false;
-	}
-
-	$: if (newPassword || confirmPassword) validPassword = validatePasswords();
+	let oldPassword: string,
+		newPassword: string,
+		hideOldPassword = true,
+		hideNewPassword = true;
 
 	function handlePasswordReset() {
-		if (!validatePasswords()) {
-			dispatch('error', { error: 'invalid password' });
-		}
 		$authStore
-			.passwordResetChallenge(username, newPassword)
+			.passwordResetChallenge(username, oldPassword, newPassword)
 			.then((res) => {
 				console.log(res);
 				dispatch('success', { res });
@@ -36,7 +27,6 @@
 				dispatch('error', { error: error.message });
 			})
 			.finally(() => {
-				needsPasswordReset = false;
 				dispatch('finally');
 			});
 	}
@@ -48,26 +38,68 @@
 >
 	<slot name="head" />
 	<label class="flex flex-col w-full">
+		<slot name="username">Username</slot>
+		{#if userType === 'email'}
+			<input
+				type="email"
+				class="rounded"
+				bind:value={username}
+				required
+				autocomplete={autocomplete ? 'email' : null}
+			/>
+		{:else}
+			<input
+				type="text"
+				class="rounded"
+				bind:value={username}
+				required
+				autocomplete={autocomplete ? 'username' : null}
+			/>
+		{/if}
+	</label>
+	<label class="relative flex flex-col w-full">
+		<slot name="oldPassword">Old Password</slot>
+		{#if hideOldPassword}
+			<input type="password" class="rounded" bind:value={oldPassword} required />
+		{:else}
+			<input type="text" class="rounded" bind:value={oldPassword} required />
+		{/if}
+
+		{#if togglePassword}
+			<button
+				class="absolute inset-y-8 right-2"
+				on:click={() => (hideOldPassword = !hideOldPassword)}
+			>
+				{#if hideOldPassword}
+					<Eye />
+				{:else}
+					<EyeOff />
+				{/if}
+			</button>
+		{/if}
+	</label>
+	<label class="relative flex flex-col w-full">
 		<slot name="newPassword">New Password</slot>
-		{#if hidePassword}
+		{#if hideNewPassword}
 			<input type="password" class="rounded" bind:value={newPassword} required />
 		{:else}
 			<input type="text" class="rounded" bind:value={newPassword} required />
 		{/if}
-	</label>
-	<label class="flex flex-col w-full">
-		<slot name="confirmPassword">Confirm your Password</slot>
-		{#if hidePassword}
-			<input type="password" class="rounded" bind:value={confirmPassword} required />
-		{:else}
-			<input type="text" class="rounded" bind:value={confirmPassword} required />
+
+		{#if togglePassword}
+			<button
+				class="absolute inset-y-8 right-2"
+				on:click={() => (hideNewPassword = !hideNewPassword)}
+			>
+				{#if hideNewPassword}
+					<Eye />
+				{:else}
+					<EyeOff />
+				{/if}
+			</button>
 		{/if}
 	</label>
-	<button
-		type="submit"
-		class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit"
-		disabled={!validPassword}
-	>
+	<button type="submit" class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit">
 		<slot name="submit">Submit</slot>
 	</button>
 	<slot name="actions" />
