@@ -17,10 +17,10 @@
 		hideNewPassword = true;
 
 	function handlePasswordReset() {
+		dispatch('submit');
 		$authStore
 			.passwordResetChallenge(username, oldPassword, newPassword)
 			.then((res) => {
-				console.log(res);
 				dispatch('success', { res });
 			})
 			.catch((error) => {
@@ -31,6 +31,29 @@
 			});
 	}
 </script>
+
+<!--
+	@component
+	Used when users require to change their passwords. Especially useful when users were created via Admin API.
+
+	For more common password changes, prefer `ChangePassword`.
+
+	```svelte
+	<ResetPassword
+		username=""
+		class=""
+		userType={"email" | "username"}
+		autocomplete={false}
+		togglePassword={false}
+		on:submit={handleSubmit}
+		on:success={handleSuccess}
+		on:error={handleError}
+		on:finally={handleFinally}
+	>
+		<span slot="head|username|password|submit|actions">...</span>
+	</ResetPassword>
+	```
+-->
 
 <form
 	on:submit|preventDefault={handlePasswordReset}

@@ -63,7 +63,7 @@ export class Auth {
 		return promise;
 	}
 
-	async signIn(username: string, password: string): Promise<SignInResponse> {
+	signIn(username: string, password: string): Promise<SignInResponse> {
 		const authenticationDetails = new AuthenticationDetails({
 			Username: username,
 			Password: password
@@ -156,48 +156,6 @@ export class Auth {
 
 		return promise;
 	}
-
-	/*  /**
-     * Used when users are created via AdminAPI.
-     * @param newPassword
-     * @param sessionUserAttributes
-     * @returns User session or an Error
-     *
-    async handlePasswordChallenge(
-        username: string,
-        newPassword: string,
-        sessionUserAttributes: unknown
-    ): Promise<SignInResponse | Error> {
-        const userData = {
-            Username: username,
-            Pool: this.#UserPool,
-        };
-        const cognitoUser = new CognitoUser(userData);
-
-        const promise = new Promise<SignInResponse | Error>(
-            (resolve, reject) => {
-                cognitoUser.completeNewPasswordChallenge(
-                    newPassword,
-                    sessionUserAttributes,
-                    {
-                        onSuccess: (session, userConfirmationNecessary) => {
-                            console.log('success');
-                            return resolve({
-                                type: 'session',
-                                session,
-                                needsConfirmation: !!userConfirmationNecessary,
-                            });
-                        },
-                        onFailure: (err: Error) => {
-                            console.log('fail');
-                            return reject(err);
-                        },
-                    }
-                );
-            }
-        );
-        return promise;
-    } */
 
 	/**
 	 * Signs user from application. If global, invalidates all issued tokens.
@@ -304,7 +262,7 @@ export class Auth {
 			this.#CognitoUser.deleteUser((err, result) => {
 				if (err) return reject(err);
 				else if (result) return resolve(result);
-				else return reject(new Error("couldn't resolve the change user password request"));
+				else return reject(new Error("couldn't resolve the delete user request"));
 			});
 		});
 		return promise;

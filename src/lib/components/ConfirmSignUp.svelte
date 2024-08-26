@@ -11,6 +11,7 @@
 
 	let code: string;
 	function handleConfirm() {
+		dispatch('submit');
 		$authStore
 			.confirmSignUp(username, code)
 			.then((res) => {
@@ -22,6 +23,25 @@
 			.finally(() => dispatch('finally'));
 	}
 </script>
+
+<!--
+	@component
+	Used to confirm sign up via confirmation code sent by Cognito.
+
+	```svelte
+	<ConfirmSignUp
+		username=""
+		class=""
+		maxlength={4}
+		on:submit={handleSubmit}
+		on:success={handleSuccess}
+		on:error={handleError}
+		on:finally={handleFinally}
+	>
+		<span slot="head|otf|submit|actions">...</span>
+	</ConfirmSignUp>
+	```
+-->
 
 <form
 	on:submit|preventDefault={handleConfirm}
