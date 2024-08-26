@@ -55,7 +55,7 @@
 
 <form
 	on:submit|preventDefault={handleSignIn}
-	class="flex flex-col items-start gap-4 w-1/4 rounded border border-zinc-300 px-12 py-14 {classNames}"
+	class="flex flex-col items-start gap-4 rounded border border-zinc-300 px-12 py-14 {classNames}"
 >
 	<slot name="head" />
 	<label class="flex flex-col w-full">

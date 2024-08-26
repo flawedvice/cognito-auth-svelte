@@ -23,14 +23,14 @@
 		console.log('finally!');
 		loading = false;
 	}
-
-	let hidePassword = true;
 </script>
 
-<main class="flex justify-center my-40">
+<main class="flex flex-col justify-center my-20 mx-auto w-1/4 gap-4">
 	<ResetPassword togglePassword />
-	<!-- <SignOut on:success={() => console.log('signed out!')} /> -->
-	<!-- <SignUp
+	<SignIn />
+	<ConfirmSignUp username="" />
+	<SignOut on:success={() => console.log('signed out!')} />
+	<SignUp
 		on:submit={handleSubmit}
 		on:success={handleSuccess}
 		on:error={handleError}
@@ -56,5 +56,5 @@
 			<a class="link" href="">Crear cuenta</a>
 			<a class="link" href="">Olvidé mi contraseña</a>
 		</div>
-	</SignUp> -->
+	</SignUp>
 </main>
