@@ -1,6 +1,3 @@
-// Apply tailwind styles to components
-import '@base-css';
-
 // Login
 import SignUp from './SignUp.svelte';
 import SignIn from './SignIn.svelte';
