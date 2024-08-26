@@ -1,5 +1,6 @@
 {
-	"name": "cognito-auth",
+	"name": "cognito-auth-svelte",
+	"description": "Amazon cognito identities js wrapped in Svelte components to accelerate implementation.",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",
