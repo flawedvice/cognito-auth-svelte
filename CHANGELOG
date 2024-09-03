@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2024-09-03
+
+### Fixed
+
+- Fixed incorrect error on ResetPassword flow. Success wouldn't ocurr even if it should.
+- Fixed hide/show password buttons triggering form submit.
+
+### Changed
+
+- TailwindCSS Forms plugin only processes classes. Won't enforce global styles.
+- Applied TailwindCSS Forms classses to input fields.
+
 ## [0.0.3] - 2024-08-26
 
 ### Changed

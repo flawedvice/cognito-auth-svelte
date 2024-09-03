@@ -59,7 +59,7 @@
 		{#if userType === 'email'}
 			<input
 				type="email"
-				class="rounded"
+				class="form-input rounded"
 				bind:value={username}
 				required
 				autocomplete={autocomplete ? 'email' : null}
@@ -67,7 +67,7 @@
 		{:else}
 			<input
 				type="text"
-				class="rounded"
+				class="form-input rounded"
 				bind:value={username}
 				required
 				autocomplete={autocomplete ? 'username' : null}
@@ -77,12 +77,15 @@
 	<label class="relative flex flex-col w-full">
 		<slot name="password">Password</slot>
 		{#if hidePassword}
-			<input type="password" class="rounded" bind:value={password} required />
+			<input type="password" class="form-input rounded" bind:value={password} required />
 		{:else}
-			<input type="text" class="rounded" bind:value={password} required />
+			<input type="text" class="form-input rounded" bind:value={password} required />
 		{/if}
 		{#if togglePassword}
-			<button class="absolute inset-y-8 right-2" on:click={() => (hidePassword = !hidePassword)}>
+			<button
+				class="absolute inset-y-8 right-2"
+				on:click|preventDefault={() => (hidePassword = !hidePassword)}
+			>
 				{#if hidePassword}
 					<Eye />
 				{:else}

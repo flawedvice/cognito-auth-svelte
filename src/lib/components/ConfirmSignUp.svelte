@@ -50,7 +50,7 @@
 	<slot name="head" />
 	<label class="flex flex-col w-full">
 		<slot name="otf">OTF</slot>
-		<input type="text" class="rounded" {maxlength} required bind:value={code} />
+		<input type="text" class="form-input rounded" {maxlength} required bind:value={code} />
 	</label>
 
 	<button type="submit" class="rounded border border-zinc-300 px-4 py-2 w-fit h-fit">

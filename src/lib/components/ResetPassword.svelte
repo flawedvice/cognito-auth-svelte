@@ -65,7 +65,7 @@
 		{#if userType === 'email'}
 			<input
 				type="email"
-				class="rounded"
+				class="form-input rounded"
 				bind:value={username}
 				required
 				autocomplete={autocomplete ? 'email' : null}
@@ -73,7 +73,7 @@
 		{:else}
 			<input
 				type="text"
-				class="rounded"
+				class="form-input rounded"
 				bind:value={username}
 				required
 				autocomplete={autocomplete ? 'username' : null}
@@ -83,15 +83,15 @@
 	<label class="relative flex flex-col w-full">
 		<slot name="oldPassword">Old Password</slot>
 		{#if hideOldPassword}
-			<input type="password" class="rounded" bind:value={oldPassword} required />
+			<input type="password" class="form-input rounded" bind:value={oldPassword} required />
 		{:else}
-			<input type="text" class="rounded" bind:value={oldPassword} required />
+			<input type="text" class="form-input rounded" bind:value={oldPassword} required />
 		{/if}
 
 		{#if togglePassword}
 			<button
 				class="absolute inset-y-8 right-2"
-				on:click={() => (hideOldPassword = !hideOldPassword)}
+				on:click|preventDefault={() => (hideOldPassword = !hideOldPassword)}
 			>
 				{#if hideOldPassword}
 					<Eye />
@@ -104,15 +104,15 @@
 	<label class="relative flex flex-col w-full">
 		<slot name="newPassword">New Password</slot>
 		{#if hideNewPassword}
-			<input type="password" class="rounded" bind:value={newPassword} required />
+			<input type="password" class="form-input rounded" bind:value={newPassword} required />
 		{:else}
-			<input type="text" class="rounded" bind:value={newPassword} required />
+			<input type="text" class="form-input rounded" bind:value={newPassword} required />
 		{/if}
 
 		{#if togglePassword}
 			<button
 				class="absolute inset-y-8 right-2"
-				on:click={() => (hideNewPassword = !hideNewPassword)}
+				on:click|preventDefault={() => (hideNewPassword = !hideNewPassword)}
 			>
 				{#if hideNewPassword}
 					<Eye />
