@@ -6,5 +6,5 @@ export default {
 	theme: {
 		extend: {}
 	},
-	plugins: [forms]
+	plugins: [forms({ strategy: 'class' })]
 };

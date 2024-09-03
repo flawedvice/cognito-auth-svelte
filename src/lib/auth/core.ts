@@ -149,7 +149,6 @@ export class Auth {
 							return reject(err);
 						}
 					});
-					return reject(new Error('newPasswordRequired'));
 				}
 			});
 		});
