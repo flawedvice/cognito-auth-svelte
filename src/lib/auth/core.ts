@@ -267,6 +267,26 @@ export class Auth {
 		return promise;
 	}
 
+	async getSession() {
+		if (!this.#CognitoUser) {
+			const cognitoUser = await this.#retrieveLocalSession();
+			if (cognitoUser instanceof Error) throw cognitoUser;
+			else this.#CognitoUser = cognitoUser;
+		}
+
+		const promise = new Promise<CognitoUserSession>((resolve, reject) => {
+			(this.#CognitoUser as CognitoUser).getSession(
+				(err: Error | null, result: CognitoUserSession | null) => {
+					if (err) return reject(err);
+					else if (result) return resolve(result);
+					else return reject(new Error("couldn't resolve the get user session request"));
+				}
+			);
+		});
+
+		return promise;
+	}
+
 	// Private methods
 	/**
 	 * Tries to retrieve user session either by remembering it, getting it from local storage, or by refreshing the session.
