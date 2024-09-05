@@ -21,6 +21,30 @@ First of all, initiate the auth stores using the `initAuth` method at the root `
 <slot />
 ```
 
+Note that you can store your credentials at an `.env` file using `VITE_` as a prefix on your variable names so they can be processed at compile time:
+
+```env
+# .env
+VITE_USERPOOL_ID="..."
+VITE_CLIENT_ID="..."
+```
+
+```svelte
+<!-- +layout.svelte -->
+<script lang="ts">
+	import { initAuth } from 'cognito-auth';
+
+	const userPoolId = import.meta.env.VITE_USERPOOL_ID,
+		clientId = import.meta.env.VITE_CLIENT_ID;
+
+	initAuth(userPoolId, clientId);
+</script>
+
+<slot />
+```
+
+> source: https://vitejs.dev/guide/env-and-mode.html#env-files
+
 Then, you can start using the library's custom components:
 
 ```svelte

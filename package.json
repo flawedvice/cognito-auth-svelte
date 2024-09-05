@@ -2,7 +2,7 @@
 	"name": "cognito-auth-svelte",
 	"description": "Amazon cognito identities js wrapped in Svelte components to accelerate its implementation.",
 	"license": "MIT",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"scripts": {
 		"dev": "vite dev",
 		"prebuild": "npx tailwindcss -o \"src/lib/base.css\" --minify",

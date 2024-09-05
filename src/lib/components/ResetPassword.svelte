@@ -90,7 +90,8 @@
 
 		{#if togglePassword}
 			<button
-				class="absolute inset-y-8 right-2"
+				type="button"
+				class="absolute inset-y-8 right-2 w-fit h-fit"
 				on:click|preventDefault={() => (hideOldPassword = !hideOldPassword)}
 			>
 				{#if hideOldPassword}
@@ -111,7 +112,8 @@
 
 		{#if togglePassword}
 			<button
-				class="absolute inset-y-8 right-2"
+				type="button"
+				class="absolute inset-y-8 right-2 w-fit h-fit"
 				on:click|preventDefault={() => (hideNewPassword = !hideNewPassword)}
 			>
 				{#if hideNewPassword}

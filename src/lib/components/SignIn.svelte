@@ -85,10 +85,10 @@
 		{:else}
 			<input type="text" class="form-input rounded" bind:value={password} required />
 		{/if}
-
 		{#if togglePassword}
 			<button
-				class="absolute inset-y-8 right-2"
+				type="button"
+				class="absolute inset-y-8 right-2 w-fit h-fit"
 				on:click|preventDefault={() => (hidePassword = !hidePassword)}
 			>
 				{#if hidePassword}
