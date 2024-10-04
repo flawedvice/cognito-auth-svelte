@@ -4,6 +4,12 @@ This library provides components and methods to allow a fast implementation of A
 
 It's optimized to work on the frontend!
 
+## Install
+
+```bash
+npm i cognito-auth-svelte
+```
+
 ## Usage
 
 First of all, initiate the auth stores using the `initAuth` method at the root `+layout.svelte` file:
@@ -78,15 +84,16 @@ If needed, you can also access the `authStore` store to retrieve specific user d
 
 ## Available components
 
-| Component      | Usage                                                                                                     |
-| -------------- | --------------------------------------------------------------------------------------------------------- |
-| AuthGuard      | Set at any `+layout.svelte` file to protect its child pages from unauthenticated users.                   |
-| SignIn         | Lets users sign into your Cognito Userpool.                                                               |
-| SignUp         | Lets users sign up to your Cognito Userpool.                                                              |
-| ConfirmSignUp  | Used to send confirmation codes. Requires a username!                                                     |
-| ResetPassword  | Allows users to change their password when required to. Use when users are created via Admin API.         |
-| ChangePassword | Allows users to change their password when authenticated. If prompted by Cognito, prefer `ResetPassword`. |
-| SignOut        | Signs users out of your Cognito Userpool.                                                                 |
+| Component      | Usage                                                                                                                 |
+| -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| AuthGuard      | Set at any `+layout.svelte` file to protect its child pages from unauthenticated users.                               |
+| SignIn         | Lets users sign into your Cognito Userpool.                                                                           |
+| SignUp         | Lets users sign up to your Cognito Userpool.                                                                          |
+| ConfirmSignUp  | Used to send confirmation codes. Requires a username!                                                                 |
+| ResetPassword  | Allows users to change their password when required to. Use when users are created via Admin API.                     |
+| ChangePassword | Allows users to change their password when authenticated. If prompted by Cognito, prefer `ResetPassword`.             |
+| ForgotPassword | Allows users to start the "forgot password" flow. Users must be confirmed and have a verified email or SMS attribute. |
+| SignOut        | Signs users out of your Cognito Userpool.                                                                             |
 
 Some of those components emit custom events:
 | Component | Submit | Success | Error | Finally | Other |
@@ -97,7 +104,12 @@ Some of those components emit custom events:
 | ConfirmSignUp |✅|✅|✅|✅|❌|
 | ResetPassword |✅|✅|✅|✅|❌|
 | ChangePassword |✅|✅|✅|✅|❌|
+| ForgotPassword\* |✅|✅|✅|✅|❌|
 | SignOut |✅|✅|✅|✅|❌|
+
+> \* ForgotPassword has duplicated events as it handles both the new password request and confirmation.
+> This events are prefixed with `request` and `confirm`, respectively.
+> E.g.: `requestSuccess` and `confirmSuccess`.
 
 ## Available methods (@ `authStore`)
 
@@ -112,6 +124,8 @@ Some of those components emit custom events:
 | getAttributes          | `$authStore.getAttributes()`                                                                       |
 | updateAttributes       | `$authStore.updateAttributes(attributes: ICognitoUserAttributeData[])`                             |
 | changePassword         | `$authStore.changePassword(oldPassword: string, newPassword: string)`                              |
+| forgotPassword         | `$authStore.forgotPassword(username: string)`                                                      |
+| confirmPassword        | `$authStore.confirmPassword(username: string, code: string, newPassword: string)`                  |
 | deleteUser             | `$authStore.deleteUser()`                                                                          |
 
 ## Notes

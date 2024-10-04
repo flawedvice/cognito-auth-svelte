@@ -4,7 +4,11 @@ import {
 	CognitoUser,
 	AuthenticationDetails
 } from 'amazon-cognito-identity-js';
-import type { CognitoUserSession, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
+import type {
+	CodeDeliveryDetails,
+	CognitoUserSession,
+	ICognitoUserAttributeData
+} from 'amazon-cognito-identity-js';
 
 import type { SignInResponse, SignInSession } from '@types';
 
@@ -100,6 +104,13 @@ export class Auth {
 		return promise;
 	}
 
+	/**
+	 * Allows users to create a new password. Use when users created via Admin API.
+	 * @param username
+	 * @param oldPassword
+	 * @param newPassword
+	 * @returns Sign-In response
+	 */
 	passwordResetChallenge(username: string, oldPassword: string, newPassword: string) {
 		const authenticationDetails = new AuthenticationDetails({
 			Username: username,
@@ -149,6 +160,62 @@ export class Auth {
 							return reject(err);
 						}
 					});
+				}
+			});
+		});
+
+		return promise;
+	}
+
+	/**
+	 * Starts "Forgot Password" flow
+	 * @param username
+	 * @returns Code delivery details
+	 */
+	forgotPassword(username: string): Promise<CodeDeliveryDetails> {
+		const userData = {
+			Username: username,
+			Pool: this.#UserPool
+		};
+
+		const cognitoUser = new CognitoUser(userData);
+
+		const promise = new Promise<CodeDeliveryDetails>((resolve, reject) => {
+			cognitoUser.forgotPassword({
+				onSuccess: (data: CodeDeliveryDetails) => {
+					return resolve(data);
+				},
+				onFailure: (err: Error) => {
+					return reject(err);
+				}
+			});
+		});
+
+		return promise;
+	}
+
+	/**
+	 * Confirms new password for "forgot password" flows.
+	 * @param username
+	 * @param code
+	 * @param newPassword
+	 * @returns Confirmation string
+	 */
+	confirmPassword(username: string, code: string, newPassword: string) {
+		const userData = {
+			Username: username,
+			Pool: this.#UserPool
+		};
+
+		const cognitoUser = new CognitoUser(userData);
+
+		const promise = new Promise<string>((resolve, reject) => {
+			cognitoUser.confirmPassword(code, newPassword, {
+				onSuccess: (success) => {
+					return resolve(success);
+				},
+				onFailure: (err: Error) => {
+					return reject(err);
 				}
 			});
 		});

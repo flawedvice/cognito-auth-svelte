@@ -11,6 +11,16 @@ import {
 	ResetPassword,
 	ChangePassword,
 	ConfirmSignUp,
+	ForgotPassword,
 	AuthGuard
 } from './components';
-export { SignUp, SignIn, SignOut, ResetPassword, ChangePassword, ConfirmSignUp, AuthGuard };
+export {
+	SignUp,
+	SignIn,
+	SignOut,
+	ResetPassword,
+	ChangePassword,
+	ConfirmSignUp,
+	ForgotPassword,
+	AuthGuard
+};

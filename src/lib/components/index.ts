@@ -9,7 +9,8 @@ export { SignUp, SignIn, SignOut };
 import ResetPassword from './ResetPassword.svelte';
 import ChangePassword from './ChangePassword.svelte';
 import ConfirmSignUp from './ConfirmSignUp.svelte';
-export { ResetPassword, ChangePassword, ConfirmSignUp };
+import ForgotPassword from './ForgotPassword.svelte';
+export { ResetPassword, ChangePassword, ConfirmSignUp, ForgotPassword };
 
 // Protection
 import AuthGuard from './AuthGuard.svelte';
